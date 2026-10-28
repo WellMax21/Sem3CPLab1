@@ -17,8 +17,7 @@ jobs:
       - run: C:\vcpkg\vcpkg.exe install boost-test:x64-windows
       - run: cmake . -DPATCH_VERSION=${{ github.run_number }} -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
       - run: cmake --build .
-      - run: cmake --build . --target test
-      - run: cmake --build . --target package
+      - run: cmake --build . --target RUN_TESTS
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -36,6 +35,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./helloworld-0.0.${{ github.run_number }}.exe
+          asset_path: ./Debug/helloworld_cli.exe
           asset_name: helloworld-0.0.${{ github.run_number }}.exe
-          asset_content_type: application/vnd.debian.binary-package
+          asset_content_type: application/vnd.microsoft.portable-executable
